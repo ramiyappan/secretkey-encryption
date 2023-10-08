@@ -1,0 +1,316 @@
+Project 1:
+--------------------------
+Task 1: Frequency Analysis
+--------------------------
+
+Step 1: Setup VM -> Use the provided Seed Ubuntu image
+
+Step 2: Save the provided lab files in a folder -> Open terminal in that folder -> Run freq.py to analyze the frequency of n-grams. Use this analysis to identify the most common letters, letter pairs, and letter triplets
+
+Step 3: Identify common letters -> The letter 'n' appears quite frequently, so it's a good candidate for the letter 'e' in English -> replace 'n' with 'E' using the tr command -> Command: tr 'n' 'E' < ciphertext.txt > decrypted1.txt
+
+Step 4: Further analyze the text, 'ytE' might correspond to 'THE'. Use the tr command to make these replacements -> 
+Command: tr 'ytE' 'THE' < decrypted1.txt > decrypted2.txt
+
+Step 5: Replacing 'THvT' with 'THAT' -> Command: tr 'THvT' 'THAT' < decrypted2.txt > decrypted3.txt
+
+Step 6: Since 'AhE' seems like 'ARE' -> Replace 'h' with 'R' -> Command: tr 'h' 'R' < decrypted3.txt > decrypted4.txt
+
+Step 7: Since 'lHETHER' seems like 'WHETHER' -> Replace 'l' with 'W' -> Command: tr 'l' 'W' < decrypted4.txt > decrypted5.txt
+
+Step 8: Since 'THEmR' and 'mT' seem like 'THEIR' and 'IT' -> Replace 'm' with 'I' -> Command: tr 'm' 'I' < decrypted5.txt > decrypted6.txt
+
+Step 9: Since 'THIq' seems like 'THIS' -> Replace 'q' with 'S' -> Command: tr 'q' 'S' < decrypted6.txt > decrypted7.txt
+
+Step 10: Since 'bIRST' seems like 'FIRST' -> Replace 'b' with 'F' -> Command: tr 'b' 'F' < decrypted7.txt > decrypted8.txt
+
+Step 11: Since 'AWARpS' seems like 'AWARDS' -> Replace 'p' with 'D' -> Command: tr 'p' 'D' < decrypted8.txt > decrypted9.txt
+
+Step 12: 'AuxTHER FEATzRE xF' seems like 'ANOTHER FEATURE OF' -> Replace 'ux' with 'NO', 'z' with 'U' and 'x' with 'O' ->
+Commands:
+tr 'ux' 'NO' < decrypted9.txt > decrypted10.txt
+tr 'z' 'U' < decrypted10.txt > decrypted11.txt
+tr 'x' 'O' < decrypted11.txt > decrypted12.txt
+
+Step 13:
+REAiid -> REALLY
+sNOWS -> KNOWS
+rOINr -> GOING
+EDUaATED -> EDUCATED
+Commands:
+tr 'i' 'L' < decrypted12.txt > decrypted13.txt
+tr 's' 'K' < decrypted13.txt > decrypted14.txt
+tr 'r' 'G' < decrypted14.txt > decrypted15.txt
+tr 'a' 'C' < decrypted15.txt > decrypted16.txt
+
+Step 14:
+gIG -> BIG
+jUESTION -> QUESTION
+ACADEcd -> ACADEMY
+Commands:
+tr 'g' 'B' < decrypted16.txt > decrypted17.txt
+tr 'j' 'Q' < decrypted17.txt > decrypted18.txt
+tr 'c' 'M' < decrypted18.txt > decrypted19.txt
+tr 'd' 'Y' < decrypted19.txt > decrypted20.txt
+
+Step 15:
+eICTURE -> PICTURE
+FAfORITE -> FAVORITE
+EkTRA -> EXTRA
+Commands:
+tr 'e' 'P' < decrypted20.txt > decrypted21.txt
+tr 'f' 'V' < decrypted21.txt > decrypted22.txt
+tr 'k' 'X' < decrypted22.txt > decrypted23.txt
+
+Step 16:
+w -> Z
+o -> J
+Commands:
+tr 'w' 'Z' < decrypted23.txt > decrypted24.txt
+tr 'o' 'J' < decrypted24.txt > decrypted25.txt
+
+Final command to decrypt the entire text:
+tr 'vgapnbrtmosicuxejhqyzflkdw' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' < ciphertext.txt > decryptedtext.txt	
+
+----------------------------------------------------
+Task 2: Encryption using Different Ciphers and Modes
+----------------------------------------------------
+-------------------------
+Encryption 1: AES-128-CBC
+-------------------------
+Encryption:
+openssl enc -aes-128-cbc -e -in decryptedtext.txt -out ciphertext_aes-128-cbc.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+
+Decryption:
+openssl enc -aes-128-cbc -d -in ciphertext_aes-128-cbc.txt -out decryptedtext_aes-128-cbc.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+
+---------------------
+Encryption 2: -BF-CBC
+---------------------
+Encryption:
+openssl enc -bf-cbc -e -in decryptedtext.txt -out ciphertext_bf-cbc.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+
+Decryption:
+openssl enc -bf-cbc -d -in ciphertext_bf-cbc.txt -out decryptedtext_bf-cbc.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+
+-------------------------
+Encryption 3: AES-128-CFB
+-------------------------
+Encryption:
+openssl enc -aes-128-cfb -e -in decryptedtext.txt -out ciphertext_aes-128-cfb.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+
+Decryption:
+openssl enc -aes-128-cfb -d -in ciphertext_aes-128-cfb.txt -out decryptedtext_aes-128-cfb.txt -K 00112233445566778889aabbccddeeff -iv 0102030405060708
+
+-------------------------------------
+Task 3: Encryption Mode – ECB vs. CBC
+-------------------------------------
+------------------
+For given picture:
+------------------
+----------
+ECB Method
+----------
+openssl enc -aes-128-ecb -in pic_original.bmp -out encrypted_ecb.bmp
+
+head -c 54 pic_original.bmp > header
+tail -c +55 encrypted_ecb.bmp > body
+cat header body > encrypted_ecb.bmp
+
+----------
+CBC Method
+----------
+openssl enc -aes-128-cbc -in pic_original.bmp -out encrypted_cbc.bmp
+
+head -c 54 pic_original.bmp > header
+tail -c +55 encrypted_cbc.bmp > body
+cat header body > encrypted_cbc.bmp
+
+----------------
+For new picture:
+----------------
+----------
+ECB Method
+----------
+openssl enc -aes-128-ecb -in dots.bmp -out encrypted_dots_ecb.bmp
+
+head -c 54 dots.bmp > header
+tail -c +55 encrypted_dots_ecb.bmp > body
+cat header body > encrypted_dots_ecb.bmp
+
+----------
+CBC Method
+----------
+openssl enc -aes-128-cbc -in dots.bmp -out encrypted_dots_cbc.bmp
+
+head -c 54 dots.bmp > header
+tail -c +55 encrypted_dots_cbc.bmp > body
+cat header body > encrypted_dots_cbc.bmp
+
+---------------
+Task 4: Padding
+---------------
+------------------------
+Commands to create files
+------------------------
+echo -n "12345" > f1.txt
+echo -n "1234567890" > f2.txt
+echo -n "1234567890123456" > f3.txt
+
+-------------------
+Encryption commands
+-------------------
+-----------
+AES-128-CBC
+-----------
+openssl enc -aes-128-cbc -e -in f1.txt -out encrypted_f1_cbc.txt
+openssl enc -aes-128-cbc -e -in f2.txt -out encrypted_f2_cbc.txt
+openssl enc -aes-128-cbc -e -in f3.txt -out encrypted_f3_cbc.txt
+
+-----------
+AES-128-ECB
+-----------
+openssl enc -aes-128-ecb -e -in f1.txt -out encrypted_f1_ecb.txt
+openssl enc -aes-128-ecb -e -in f2.txt -out encrypted_f2_ecb.txt
+openssl enc -aes-128-ecb -e -in f3.txt -out encrypted_f3_ecb.txt
+
+-----------
+AES-128-CFB
+-----------
+openssl enc -aes-128-cfb -e -in f1.txt -out encrypted_f1_cfb.txt
+openssl enc -aes-128-cfb -e -in f2.txt -out encrypted_f2_cfb.txt
+openssl enc -aes-128-cfb -e -in f3.txt -out encrypted_f3_cfb.txt
+
+-----------
+AES-128-OFB
+-----------
+openssl enc -aes-128-ofb -e -in f1.txt -out encrypted_f1_ofb.txt
+openssl enc -aes-128-ofb -e -in f2.txt -out encrypted_f2_ofb.txt
+openssl enc -aes-128-ofb -e -in f3.txt -out encrypted_f3_ofb.txt
+
+-------------------
+Decryption commands
+-------------------
+-----------
+AES-128-CBC
+-----------
+openssl enc -aes-128-cbc -d -nopad -in encrypted_f1_cbc.txt -out decrypted_f1_cbc.txt
+openssl enc -aes-128-cbc -d -nopad -in encrypted_f2_cbc.txt -out decrypted_f2_cbc.txt
+openssl enc -aes-128-cbc -d -nopad -in encrypted_f3_cbc.txt -out decrypted_f3_cbc.txt
+
+-----------
+AES-128-ECB
+-----------
+openssl enc -aes-128-ecb -d -nopad -in encrypted_f1_ecb.txt -out decrypted_f1_ecb.txt
+openssl enc -aes-128-ecb -d -nopad -in encrypted_f2_ecb.txt -out decrypted_f2_ecb.txt
+openssl enc -aes-128-ecb -d -nopad -in encrypted_f3_ecb.txt -out decrypted_f3_ecb.txt
+
+-----------
+AES-128-CFB
+-----------
+openssl enc -aes-128-cfb -d -nopad -in encrypted_f1_cfb.txt -out decrypted_f1_cfb.txt
+openssl enc -aes-128-cfb -d -nopad -in encrypted_f2_cfb.txt -out decrypted_f2_cfb.txt
+openssl enc -aes-128-cfb -d -nopad -in encrypted_f3_cfb.txt -out decrypted_f3_cfb.txt
+
+-----------
+AES-128-OFB
+-----------
+openssl enc -aes-128-ofb -d -nopad -in encrypted_f1_ofb.txt -out decrypted_f1_ofb.txt
+openssl enc -aes-128-ofb -d -nopad -in encrypted_f2_ofb.txt -out decrypted_f2_ofb.txt
+openssl enc -aes-128-ofb -d -nopad -in encrypted_f3_ofb.txt -out decrypted_f3_ofb.txt
+
+-----------------
+Hex Tool Commands
+-----------------
+-------
+For F1:
+-------
+CBC Mode:
+hexdump -C decrypted_f1_cbc.txt
+xxd decrypted_f1_cbc.txt
+
+ECB Mode:
+hexdump -C decrypted_f1_ecb.txt
+xxd decrypted_f1_ecb.txt
+
+CFB Mode:
+hexdump -C decrypted_f1_cfb.txt
+xxd decrypted_f1_cfb.txt
+
+OFB Mode:
+hexdump -C decrypted_f1_ofb.txt
+xxd decrypted_f1_ofb.txt
+
+-------
+For F2:
+-------
+CBC Mode:
+hexdump -C decrypted_f2_cbc.txt
+xxd decrypted_f2_cbc.txt
+
+ECB Mode:
+hexdump -C decrypted_f2_ecb.txt
+xxd decrypted_f2_ecb.txt
+
+CFB Mode:
+hexdump -C decrypted_f2_cfb.txt
+xxd decrypted_f2_cfb.txt
+
+OFB Mode:
+hexdump -C decrypted_f2_ofb.txt
+xxd decrypted_f2_ofb.txt
+
+-------
+For F3:
+-------
+CBC Mode:
+hexdump -C decrypted_f3_cbc.txt
+xxd decrypted_f3_cbc.txt
+
+ECB Mode:
+hexdump -C decrypted_f3_ecb.txt
+xxd decrypted_f3_ecb.txt
+
+CFB Mode:
+hexdump -C decrypted_f3_cfb.txt
+xxd decrypted_f3_cfb.txt
+
+OFB Mode:
+hexdump -C decrypted_f3_ofb.txt
+xxd decrypted_f3_ofb.txt
+
+-------------------------------------------------
+Task 5: Error Propagation – Corrupted Cipher Text
+-------------------------------------------------
+----------------------
+Create a new text file
+----------------------
+-------------------
+Encryption commands
+-------------------
+ECB Mode
+openssl enc -aes-128-ecb -in plaintext.txt -out encrypted_ecb.txt
+
+CBC Mode
+openssl enc -aes-128-cbc -in plaintext.txt -out encrypted_cbc.txt
+
+CFB Mode
+openssl enc -aes-128-cfb -in plaintext.txt -out encrypted_cfb.txt
+
+OFB Mode
+openssl enc -aes-128-ofb -in plaintext.txt -out encrypted_ofb.txt
+
+-------------------
+Decryption commands
+-------------------
+ECB Mode
+openssl enc -aes-128-ecb -d -in encrypted_ecb.txt -out decrypted_ecb.txt
+
+CBC Mode
+openssl enc -aes-128-cbc -d -in encrypted_cbc.txt -out decrypted_cbc.txt
+
+CFB Mode
+openssl enc -aes-128-cfb -d -in encrypted_cfb.txt -out decrypted_cfb.txt
+
+OFB Mode
+openssl enc -aes-128-ofb -d -in encrypted_ofb.txt -out decrypted_ofb.txt
